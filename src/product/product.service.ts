@@ -49,7 +49,7 @@ export class ProductService {
       if (isNameSame) {
         return {
           success: false,
-          statusCode: HttpStatus.OK,
+          statusCode: HttpStatus.UNPROCESSABLE_ENTITY,
           data: { message: 'Name must be unique.' },
         }
       }
@@ -179,7 +179,7 @@ export class ProductService {
         message: 'Operation not performed.'
       }
       return {
-        statusCode: HttpStatus.BAD_REQUEST,
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
         data: data,
         error: error,
         success: false,

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, UploadedFiles, UseInterceptors, Version } from '@nestjs/common';
 import { ProductService } from "./product.service";
 import {
   CreateProductRequest,
@@ -14,14 +14,15 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 
 @ApiBearerAuth('JWT-auth')
-@ApiTags('Product')
-@Controller('product')
+@ApiTags('Products')
+@Controller({ path: 'products', version: '2' })
 export class ProductController {
   constructor(private readonly productService: ProductService) {
   }
   
   @Public()
-  @Put('catalogue')
+  @Post('catalogue')
+  @Version('3')
   catalogue(
     @Body() searchParams: ProductCatalogueRequest,
     @Query() query: PaginationListRequest,

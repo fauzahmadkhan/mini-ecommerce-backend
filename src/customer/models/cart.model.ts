@@ -13,9 +13,6 @@ export class CartItems {
   
   @Prop()
   quantity: number;
-  
-  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
-  // categoryId: CategoryDocument;
 }
 
 export type CartDocument = HydratedDocument<Cart>;
@@ -26,6 +23,9 @@ export type CartDocument = HydratedDocument<Cart>;
   toObject: { virtuals: true, getters: true },
 })
 export class Cart extends BaseModel {
+  
+  @Prop({ default: 1 })
+  customerId: number;
   
   @Prop([CartItems])
   items: CartItems[];

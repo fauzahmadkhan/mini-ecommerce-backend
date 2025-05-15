@@ -9,6 +9,11 @@ import { ProductController } from "./product/product.controller";
 import { ProductService } from "./product/product.service";
 import { APP_GUARD } from "@nestjs/core";
 import { RolesGuard } from "./shared/guards";
+import { CustomerController } from "./customer/customer.controller";
+import { CustomerService } from "./customer/customer.service";
+import { I18nModule, QueryResolver, AcceptLanguageResolver, HeaderResolver } from 'nestjs-i18n';
+import * as path from 'path';
+import { CacheModule } from '@nestjs/cache-manager';
 dotenv.config();
 
 @Module({
@@ -19,10 +24,26 @@ dotenv.config();
       // { name: 'SystemUser', schema: SystemUserSchema },
       { name: 'Cart', schema: CartSchema },
     ]),
+    I18nModule.forRoot({
+      fallbackLanguage: 'en',
+      loaderOptions: {
+        path: path.join(__dirname, '/../i18n/'),
+        watch: true,
+      },
+      resolvers: [
+        new HeaderResolver(['x-lang', 'accept-language']),
+        new QueryResolver(['lang']),
+      ],
+    }),
+    CacheModule.register({
+      ttl: 60, // seconds (default time-to-live)
+      max: 100, // maximum number of items in cache
+    }),
   ],
   controllers: [
     AppController,
     ProductController,
+    CustomerController,
   ],
   providers: [
     AppService,
@@ -31,6 +52,7 @@ dotenv.config();
       provide: APP_GUARD,
       useClass: RolesGuard,
     },
+    CustomerService,
   ],
 })
 export class AppModule {}

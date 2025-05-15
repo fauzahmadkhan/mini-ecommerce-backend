@@ -77,3 +77,48 @@ export class ProductCatalogueRequest {
   searchTerm: string;
   
 }
+
+export class UpdateProductRequest {
+  
+  @ApiProperty({ type: String })
+  @IsNotEmpty()
+  @IsString()
+  _id: string;
+  
+  @ApiProperty({ type: String })
+  @IsOptional()
+  @IsString()
+  name: string;
+  
+  @ApiProperty({ type: Number })
+  @IsOptional()
+  @IsNumber()
+  price: number;
+  
+  @ApiProperty({ type: String })
+  @IsOptional()
+  @IsString()
+  description: string;
+  
+  @ApiProperty({ type: [String] })
+  @IsOptional()
+  @IsArray()
+  productImages: string[];
+  
+  // @ApiProperty({ type: [ProductImageDto] })
+  // @IsOptional()
+  // @IsArray()
+  // @ValidateNested({ each: true })
+  // @Type(() => ProductImageDto)
+  // uploadedImages: ProductImageDto[];
+  
+}
+
+export class TranslationRequest {
+  @ApiProperty({
+    type: String,
+  })
+  @IsNotEmpty()
+  @IsString()
+  lang: string;
+}
